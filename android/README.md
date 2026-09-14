@@ -18,3 +18,5 @@
 3. In `ApiClient.kt`, set your laptop's local IP (e.g. `http://192.168.1.X:8000`). If running in the official Android Emulator, `http://10.0.2.2:8000` is used by default.
 4. Click **Run 'app'** (`Shift + F10`) to deploy to your Android device or emulator.
 5. Tap **"SYNC WITH LAPTOP COMMAND CENTER"** to pair.
+
+<!-- build trigger -->
