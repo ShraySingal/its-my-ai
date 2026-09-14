@@ -1,0 +1,31 @@
+{
+  "todos": [
+    {
+      "id": "todo_1",
+      "title": "Review Security Guardian audit log & network score",
+      "category": "security",
+      "priority": "high",
+      "completed": true,
+      "created_at": "2026-09-10T10:00:00Z",
+      "completed_at": "2026-09-10T17:33:10Z"
+    },
+    {
+      "id": "todo_2",
+      "title": "Optimize system memory footprint for 4 GB RAM profile",
+      "category": "system",
+      "priority": "urgent",
+      "completed": true,
+      "created_at": "2026-09-10T11:30:00Z",
+      "completed_at": "2026-09-10T17:33:09Z"
+    },
+    {
+      "id": "todo_3",
+      "title": "Test offline fallback cascade with simulated network disconnect",
+      "category": "testing",
+      "priority": "medium",
+      "completed": true,
+      "created_at": "2026-09-10T08:00:00Z",
+      "completed_at": "2026-09-10T09:15:00Z"
+    }
+  ]
+}

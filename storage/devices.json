@@ -1,0 +1,40 @@
+{
+  "devices": [
+    {
+      "id": "dev_win_laptop_01",
+      "name": "Windows Command Center",
+      "type": "Laptop",
+      "os": "Windows 11 (64-bit)",
+      "status": "ONLINE",
+      "is_primary": true,
+      "last_seen": "2026-09-08T09:15:00Z",
+      "battery": 94,
+      "ip": "192.168.1.105",
+      "capabilities": ["hologram", "voice", "windows_agent", "browser", "camera"]
+    },
+    {
+      "id": "dev_android_phone_02",
+      "name": "It's My AI Mobile (Galaxy S23)",
+      "type": "Mobile",
+      "os": "Android 14",
+      "status": "ONLINE",
+      "is_primary": false,
+      "last_seen": "2026-09-08T09:14:30Z",
+      "battery": 84,
+      "ip": "192.168.1.142",
+      "capabilities": ["notifications", "camera", "location", "sensor_telemetry"]
+    },
+    {
+      "id": "dev_smart_tv_03",
+      "name": "Living Room Display",
+      "type": "TV",
+      "os": "Android TV",
+      "status": "OFFLINE",
+      "is_primary": false,
+      "last_seen": "2026-09-07T22:15:00Z",
+      "battery": null,
+      "ip": "192.168.1.201",
+      "capabilities": ["media_cast", "dashboard_mirror"]
+    }
+  ]
+}

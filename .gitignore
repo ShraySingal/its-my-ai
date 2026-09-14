@@ -1,0 +1,30 @@
+# Bytecode & Cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+
+# Ephemeral runtime screenshots & media
+storage/latest_screenshot.png
+storage/*.png
+storage/*.jpg
+storage/*.jpeg
+
+# Environment & Credentials
+.env
+!.env.example
+
+# Editor & OS
+.DS_Store
+Thumbs.db
+
+# Android Build
+android/.gradle/
+android/app/build/
+android/build/
+android/local.properties
+.gradle/
+
+# Extension cache
+extension/__pycache__/

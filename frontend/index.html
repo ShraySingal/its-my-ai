@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>IT'S MY AI — Personal Command Center</title>
+  <meta name="description" content="Production-grade personal cloud AI command center inspired by futuristic assistants, optimized for 4 GB RAM.">
+  <meta name="theme-color" content="#00f0ff">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/png" href="/static/icons/icon192.png">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Three.js for 3D Hologram & Radar -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/futuristic.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body class="theme-dark">
+  <!-- Subtle cyber grid background -->
+  <div class="cyber-grid"></div>
+  <div class="vignette-overlay"></div>
+
+  <div class="hud-container">
+    <!-- TOP BAR: AI Status, Provider, Latency, Security Score -->
+    <header class="hud-topbar glass-panel" id="hud-topbar">
+      <div class="topbar-left">
+        <div class="brand-badge">
+          <span class="ai-logo-icon">◈</span>
+          <span class="brand-title">IT'S MY AI</span>
+          <span class="system-tag">COMMAND CENTER v1.0</span>
+        </div>
+        <div class="status-indicator-pill" id="ai-system-state">
+          <span class="pulse-dot"></span>
+          <span class="state-label" id="state-label">ONLINE // IDLE</span>
+        </div>
+      </div>
+
+      <div class="topbar-center">
+        <div class="hud-pill" id="pill-provider" title="Active AI Provider">
+          <span class="pill-icon">⚡</span>
+          <span class="pill-label">PROVIDER:</span>
+          <span class="pill-val" id="active-provider-name">MOCK (OFFLINE READY)</span>
+        </div>
+        <div class="hud-pill" id="pill-latency" title="Response Latency">
+          <span class="pill-icon">⏱</span>
+          <span class="pill-label">LATENCY:</span>
+          <span class="pill-val" id="telemetry-latency">12 ms</span>
+        </div>
+        <div class="hud-pill security-pill" id="pill-security" title="Security Guardian Defense Score">
+          <span class="pill-icon">🛡</span>
+          <span class="pill-label">SECURITY:</span>
+          <span class="pill-val" id="security-score-val">92/100</span>
+        </div>
+      </div>
+
+      <div class="topbar-right">
+        <select class="hud-select-theme" id="theme-selector" title="Hologram HUD Color Theme" style="background: rgba(0, 240, 255, 0.1); border: 1px solid rgba(0, 240, 255, 0.3); color: var(--hud-cyan); border-radius: 6px; padding: 4px 8px; font-family: 'Share Tech Mono', monospace; font-size: 11px; cursor: pointer;">
+          <option value="cyan">◈ CYAN</option>
+          <option value="amber">◈ AMBER</option>
+          <option value="emerald">◈ MATRIX</option>
+          <option value="violet">◈ VIOLET</option>
+        </select>
+        <button class="hud-btn-mini" id="btn-open-todos" title="Task Directives & To-Do [T]">
+          <span>📋 TASKS</span>
+        </button>
+        <button class="hud-btn-mini" id="btn-toggle-radar" title="Toggle 3D Network Radar [R]">
+          <span>📡 RADAR</span>
+        </button>
+        <button class="hud-btn-mini" id="btn-toggle-sleep" title="Low Power / Sleep State">
+          <span>🌙 SLEEP</span>
+        </button>
+        <button class="hud-btn-mini" id="btn-open-settings" title="System Settings & API Keys">
+          <span>⚙ SETTINGS</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- MAIN 3-COLUMN WORKSPACE -->
+    <main class="hud-main">
+      <!-- LEFT PANEL: Conversation Feed & Response Modes -->
+      <aside class="hud-panel left-panel glass-panel" id="left-panel">
+        <div class="panel-header">
+          <div class="panel-title-wrap">
+            <span class="panel-icon">💬</span>
+            <span class="panel-title">COMMUNICATION FEED</span>
+          </div>
+          <div class="mode-selector-wrap">
+            <select id="response-mode-select" class="hud-select" title="Response Mode">
+              <option value="NORMAL">Normal</option>
+              <option value="DETAILED">Detailed</option>
+              <option value="TECHNICAL">Technical</option>
+              <option value="ACTION">Action</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="chat-feed-scroll" id="chat-messages">
+          <div class="chat-bubble ai-bubble welcome-msg">
+            <div class="bubble-header">
+              <span class="bubble-avatar">◈</span>
+              <span class="bubble-author">IT'S MY AI</span>
+              <span class="bubble-time">SYSTEM BOOT</span>
+            </div>
+            <div class="bubble-body">
+              All command center subsystems active. Memory, local Windows tools, and 3D hologram initialized with 4 GB RAM resource optimization.
+            </div>
+            <div class="bubble-tags">
+              <span class="badge-safe">LEVEL 1 SAFE</span>
+              <span class="badge-tag">READY</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Command Chips -->
+        <div class="quick-commands-bar">
+          <button class="chip-btn" data-cmd="It's My AI, what is on my screen right now?">👁️ Analyze Screen</button>
+          <button class="chip-btn" data-cmd="It's My AI, analyze this PDF.">📄 Analyze Doc</button>
+          <button class="chip-btn" data-cmd="It's My AI, summarize my emails.">✉️ Emails</button>
+          <button class="chip-btn" data-cmd="It's My AI, check my calendar.">📅 Calendar</button>
+          <button class="chip-btn" data-cmd="It's My AI, what is on my to-do list?">📋 To-Do List</button>
+          <button class="chip-btn" data-cmd="It's My AI, how much RAM do I have?">📊 Check RAM</button>
+          <button class="chip-btn" data-cmd="It's My AI, start my coding routine.">🚀 Coding Routine</button>
+          <button class="chip-btn" data-cmd="It's My AI, scan my network.">📡 Network Scan</button>
+          <button class="chip-btn" data-cmd="It's My AI, check my system security.">🛡 Security Audit</button>
+          <button class="chip-btn" data-cmd="It's My AI, show my phone battery.">📱 Phone Status</button>
+        </div>
+      </aside>
+
+      <!-- CENTER PANEL: 3D Hologram Avatar & 3D Network Radar -->
+      <section class="hud-center-stage" id="center-stage">
+        <!-- Three.js Canvas Container -->
+        <div id="hologram-viewport" class="hologram-viewport">
+          <canvas id="hologram-canvas"></canvas>
+
+          <!-- Hologram Floating HUD Overlays -->
+          <div class="hologram-overlay top-overlay">
+            <div class="holographic-title" id="hologram-mode-title">HOLOGRAM CORE // ONLINE</div>
+            <div class="holographic-state-badge" id="hologram-state-badge">STATE: IDLE</div>
+          </div>
+
+          <!-- Network Radar Overlay (When in Radar Mode) -->
+          <div class="radar-overlay hidden" id="radar-hud-overlay">
+            <div class="radar-hud-header">
+              <span class="radar-pulse-ring"></span>
+              <span class="radar-title">AUTHORIZED SUBNET RADAR [192.168.1.0/24]</span>
+              <span class="radar-count" id="radar-device-count">5 Visible Nodes</span>
+            </div>
+            <div class="radar-legend">
+              <span class="leg-item"><span class="leg-dot green"></span> Authorized</span>
+              <span class="leg-item"><span class="leg-dot cyan"></span> Gateway</span>
+              <span class="leg-item"><span class="leg-dot amber"></span> Probable Node</span>
+            </div>
+          </div>
+
+          <!-- Hologram Audio Waveform Indicator -->
+          <div class="hologram-audio-wave" id="audio-wave-container">
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT PANEL: Hardware Telemetry & Devices & Audit -->
+      <aside class="hud-panel right-panel glass-panel" id="right-panel">
+        <!-- Telemetry Section -->
+        <div class="panel-section">
+          <div class="panel-header">
+            <div class="panel-title-wrap">
+              <span class="panel-icon">⚙</span>
+              <span class="panel-title">SYSTEM TELEMETRY (4GB RAM PROFILE)</span>
+            </div>
+          </div>
+
+          <div class="telemetry-grid">
+            <!-- CPU Gauge -->
+            <div class="telemetry-card">
+              <div class="card-header">
+                <span class="card-title">CPU USAGE</span>
+                <span class="card-val" id="cpu-percent-val">12%</span>
+              </div>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar-fill" id="cpu-progress-bar" style="width: 12%;"></div>
+              </div>
+              <div class="card-sub" id="cpu-specs-sub">Intel Core i5-1235U</div>
+            </div>
+
+            <!-- RAM Gauge -->
+            <div class="telemetry-card highlight-card">
+              <div class="card-header">
+                <span class="card-title">RAM MEMORY</span>
+                <span class="card-val" id="ram-percent-val">48%</span>
+              </div>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar-fill" id="ram-progress-bar" style="width: 48%;"></div>
+              </div>
+              <div class="card-sub" id="ram-usage-sub">1.76 GB / 3.68 GB usable</div>
+            </div>
+
+            <!-- Storage & Battery -->
+            <div class="dual-metric-card">
+              <div class="metric-col">
+                <span class="col-label">STORAGE</span>
+                <span class="col-val" id="disk-percent-val">64%</span>
+                <span class="col-sub" id="disk-space-sub">170 GB Free</span>
+              </div>
+              <div class="metric-divider"></div>
+              <div class="metric-col">
+                <span class="col-label">BATTERY</span>
+                <span class="col-val" id="battery-percent-val">94%</span>
+                <span class="col-sub" id="battery-plug-sub">AC Plugged</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Paired Devices Section -->
+        <div class="panel-section">
+          <div class="panel-header">
+            <div class="panel-title-wrap">
+              <span class="panel-icon">📱</span>
+              <span class="panel-title">PAIRED DEVICES</span>
+            </div>
+            <span class="badge-count" id="paired-count-badge">2 ONLINE</span>
+          </div>
+
+          <div class="devices-list" id="devices-list-container">
+            <div class="device-row online primary">
+              <div class="dev-icon">💻</div>
+              <div class="dev-info">
+                <div class="dev-name">Primary Command Laptop</div>
+                <div class="dev-sub">Windows 11 • 192.168.1.105</div>
+              </div>
+              <div class="dev-status">ACTIVE</div>
+            </div>
+
+            <div class="device-row online">
+              <div class="dev-icon">📱</div>
+              <div class="dev-info">
+                <div class="dev-name">It's My AI Mobile</div>
+                <div class="dev-sub">Android 14 • Battery: 84%</div>
+              </div>
+              <div class="dev-status">SYNCED</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Security Guardian & Audit Stream -->
+        <div class="panel-section audit-section">
+          <div class="panel-header">
+            <div class="panel-title-wrap">
+              <span class="panel-icon">🛡</span>
+              <span class="panel-title">SECURITY AUDIT STREAM</span>
+            </div>
+            <button class="btn-text-action" id="btn-run-sec-check">AUDIT NOW</button>
+          </div>
+          <div class="audit-stream-list" id="audit-stream-container">
+            <div class="audit-item">
+              <span class="audit-time">14:45</span>
+              <span class="audit-badge level-1">L1</span>
+              <span class="audit-desc">System boot: Telemetry services nominal</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <!-- BOTTOM BAR: Voice Visualizer, Input Box, Send / Mic Buttons -->
+    <footer class="hud-bottombar glass-panel" id="hud-bottombar">
+      <!-- Voice Activity Status Indicator -->
+      <div class="voice-status-indicator" id="voice-status-pill">
+        <button class="mic-toggle-btn" id="mic-toggle-btn" title="Click or say 'Hey It's My AI' to talk">
+          <span class="mic-icon">🎙</span>
+        </button>
+        <div class="voice-labels">
+          <span class="voice-state-txt" id="voice-state-txt">MIC IDLE</span>
+          <span class="wake-phrase-hint">Say "Hey, It's My AI"</span>
+        </div>
+      </div>
+
+      <!-- Command Input Field -->
+      <div class="command-input-wrapper">
+        <input type="file" id="doc-file-input" style="display: none;" accept=".pdf,.docx,.doc,.txt,.csv,.json,.md" />
+        <button class="hud-attach-btn" id="btn-attach-doc" title="Upload and Analyze Document (PDF, DOCX, CSV)" style="background: rgba(0, 240, 255, 0.1); border: 1px solid rgba(0, 240, 255, 0.3); color: var(--hud-cyan); border-radius: 6px; padding: 6px 12px; margin-right: 8px; cursor: pointer; font-size: 14px;">
+          <span>📎</span>
+        </button>
+        <input 
+          type="text" 
+          id="command-input" 
+          class="command-input" 
+          placeholder="Enter command or question (e.g. 'It\'s My AI, start my coding routine')..."
+          autocomplete="off"
+        />
+        <button class="hud-send-btn" id="btn-send-command" title="Send Command [Enter]">
+          <span>DISPATCH ◈</span>
+        </button>
+      </div>
+    </footer>
+  </div>
+
+  <!-- CONFIRMATION MODAL (LEVEL 3 & 4 ACTIONS) -->
+  <div class="modal-backdrop hidden" id="confirmation-modal">
+    <div class="confirmation-box glass-panel">
+      <div class="modal-danger-badge" id="modal-danger-badge">LEVEL 4 // DANGEROUS ACTION</div>
+      <h3 class="modal-title" id="modal-action-title">Confirm System Action</h3>
+      <p class="modal-warning-text" id="modal-warning-text">
+        Warning: This action will permanently mutate files or system state.
+      </p>
+      <div class="modal-details-box" id="modal-details-box">
+        <!-- Target parameters injected here -->
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn cancel-btn" id="modal-btn-cancel">ABORT // CANCEL</button>
+        <button class="modal-btn confirm-btn" id="modal-btn-confirm">AUTHORIZE & EXECUTE</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETTINGS MODAL -->
+  <div class="modal-backdrop hidden" id="settings-modal">
+    <div class="settings-box glass-panel">
+      <div class="settings-header">
+        <h3 class="settings-title">⚙ IT'S MY AI // CONFIGURATION</h3>
+        <button class="btn-close-modal" id="btn-close-settings">✕</button>
+      </div>
+      <div class="settings-body">
+        <div class="setting-group">
+          <label class="setting-label">AI Inference Provider</label>
+          <select id="settings-provider-select" class="hud-select full-width">
+            <option value="mock">Offline Fallback Provider (Zero-API Out-of-the-Box)</option>
+            <option value="gemini">Google Gemini 2.0 Flash</option>
+            <option value="groq">Groq Cloud (Llama-3-70B)</option>
+            <option value="openai">OpenAI (GPT-4o / GPT-4o-mini)</option>
+          </select>
+        </div>
+
+        <div class="setting-group">
+          <label class="setting-label">Gemini API Key</label>
+          <input type="password" id="input-gemini-key" class="hud-input" placeholder="AIzaSy...">
+        </div>
+
+        <div class="setting-group">
+          <label class="setting-label">Groq API Key</label>
+          <input type="password" id="input-groq-key" class="hud-input" placeholder="gsk_...">
+        </div>
+
+        <div class="setting-group">
+          <label class="setting-label">OpenAI API Key</label>
+          <input type="password" id="input-openai-key" class="hud-input" placeholder="sk-proj-...">
+        </div>
+
+        <div class="setting-group">
+          <label class="setting-label">Supabase URL & Key (Cloud Memory/Storage)</label>
+          <input type="text" id="input-supabase-url" class="hud-input" placeholder="https://xyz.supabase.co">
+        </div>
+
+        <div class="setting-note">
+          Note: IT'S MY AI functions with complete Windows, Hologram, and System tool capabilities even without cloud API keys in offline fallback mode.
+        </div>
+      </div>
+      <div class="settings-footer">
+        <button class="hud-btn-secondary" id="btn-save-settings">APPLY CONFIGURATION</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TO-DO & TASK DIRECTIVES MODAL -->
+  <div class="modal-backdrop hidden" id="todos-modal">
+    <div class="todos-box glass-panel">
+      <div class="todos-header">
+        <div class="todos-title-wrap">
+          <span class="todos-icon">📋</span>
+          <div>
+            <h3 class="todos-title">OPERATIONAL DIRECTIVES // TASKS</h3>
+            <span class="todos-subtitle">Holographic Task Manager & Persistent Queue</span>
+          </div>
+        </div>
+        <div class="todos-header-stats">
+          <span class="badge-count" id="todos-pending-count">0 PENDING</span>
+          <span class="badge-count subtle" id="todos-total-count">0 TOTAL</span>
+          <button class="btn-close-modal" id="btn-close-todos" title="Close [Esc]">✕</button>
+        </div>
+      </div>
+
+      <!-- Quick Add Task Bar -->
+      <div class="todos-add-bar">
+        <input 
+          type="text" 
+          id="new-todo-title" 
+          class="hud-input todo-input-main" 
+          placeholder="New task directive (e.g., 'Configure Groq API key', 'Run memory check')..." 
+          autocomplete="off"
+        />
+        <select id="new-todo-priority" class="hud-select todo-select-priority" title="Priority Level">
+          <option value="low">LOW</option>
+          <option value="medium" selected>MED</option>
+          <option value="high">HIGH</option>
+          <option value="urgent">URGENT</option>
+        </select>
+        <select id="new-todo-category" class="hud-select todo-select-category" title="Category">
+          <option value="general">#general</option>
+          <option value="coding">#coding</option>
+          <option value="security">#security</option>
+          <option value="system">#system</option>
+          <option value="personal">#personal</option>
+        </select>
+        <button class="hud-btn-mini todo-btn-add" id="btn-add-todo">
+          <span>+ ADD TASK</span>
+        </button>
+      </div>
+
+      <!-- Filter Controls & Search -->
+      <div class="todos-toolbar">
+        <div class="todo-filter-tabs">
+          <button class="todo-filter-tab active" data-filter="all">ALL</button>
+          <button class="todo-filter-tab" data-filter="pending">PENDING</button>
+          <button class="todo-filter-tab" data-filter="completed">COMPLETED</button>
+          <button class="todo-filter-tab" data-filter="high">HIGH PRIORITY</button>
+        </div>
+        <div class="todo-search-wrap">
+          <input type="text" id="todo-search-input" class="hud-input todo-search-input" placeholder="Search tasks..." />
+          <button class="btn-text-action" id="btn-clear-completed-todos" title="Purge completed tasks">CLEAR COMPLETED</button>
+        </div>
+      </div>
+
+      <!-- Task Items List -->
+      <div class="todos-list-scroll" id="todos-list-container">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/hologram.js"></script>
+  <script src="js/radar.js"></script>
+  <script src="js/voice.js"></script>
+  <script src="js/chat.js"></script>
+  <script src="js/system_monitor.js"></script>
+  <script src="js/confirmation_modal.js"></script>
+  <script src="js/todos.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

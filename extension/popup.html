@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IT'S MY AI Companion</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="hud-container">
+    <!-- Header -->
+    <header class="hud-header">
+      <div class="logo-group">
+        <div class="core-orb"></div>
+        <div class="title-wrap">
+          <span class="brand-title">IT'S MY AI</span>
+          <span class="brand-subtitle">BROWSER COMPANION</span>
+        </div>
+      </div>
+      <div class="status-indicator" id="statusBadge">
+        <span class="status-dot"></span>
+        <span class="status-text" id="statusText">CHECKING...</span>
+      </div>
+    </header>
+
+    <!-- Active Page Info -->
+    <div class="page-meta-card">
+      <div class="meta-label">ACTIVE WEB TARGET</div>
+      <div class="meta-title" id="pageTitle">Detecting page...</div>
+      <div class="meta-url" id="pageUrl">---</div>
+    </div>
+
+    <!-- Quick Action Chips -->
+    <div class="actions-grid">
+      <button class="action-btn primary" id="btnSummarize">
+        <span class="btn-icon">⚡</span>
+        <span class="btn-text">Summarize Page</span>
+      </button>
+
+      <button class="action-btn" id="btnExtract">
+        <span class="btn-icon">🔍</span>
+        <span class="btn-text">Extract Key Points</span>
+      </button>
+
+      <button class="action-btn" id="btnSendMemory">
+        <span class="btn-icon">🧠</span>
+        <span class="btn-text">Save to Memory</span>
+      </button>
+    </div>
+
+    <!-- AI Output Feed -->
+    <div class="output-panel" id="outputPanel">
+      <div class="output-header">
+        <span>RESPONSE FEED</span>
+        <button class="clear-btn" id="btnClear" title="Clear">✕</button>
+      </div>
+      <div class="output-content" id="outputContent">
+        Ready. Select an action above or highlight text to analyze.
+      </div>
+    </div>
+
+    <!-- Custom Prompt Input -->
+    <div class="input-bar">
+      <input type="text" id="customPrompt" placeholder="Ask IT'S MY AI about this page..." />
+      <button id="btnSend" title="Send to Assistant">➔</button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="hud-footer">
+      <a href="http://127.0.0.1:8000" target="_blank" class="hub-link">Open Command Center ↗</a>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

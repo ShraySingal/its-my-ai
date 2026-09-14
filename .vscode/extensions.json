@@ -1,0 +1,18 @@
+{
+  "recommendations": [
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "charliermarsh.ruff",
+    "usernamehw.errorlens",
+    "aaron-bond.better-comments",
+    "ritwickdey.liveserver",
+    "esbenp.prettier-vscode",
+    "ecmel.vscode-html-css",
+    "formulahendry.auto-close-tag",
+    "formulahendry.auto-rename-tag",
+    "humao.rest-client",
+    "mikestead.dotenv",
+    "mechatroner.rainbow-csv"
+  ],
+  "unwantedRecommendations": []
+}

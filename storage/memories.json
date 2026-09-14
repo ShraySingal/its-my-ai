@@ -1,0 +1,26 @@
+{
+  "memories": [
+    {
+      "id": "mem_01_user_pref",
+      "category": "preference",
+      "content": "Operator prefers futuristic HUD aesthetics and concise, respectful responses.",
+      "created_at": "2026-09-08T00:00:00Z",
+      "tags": [
+        "ui",
+        "theme",
+        "preference"
+      ]
+    },
+    {
+      "id": "mem_02_system_spec",
+      "category": "system",
+      "content": "Host hardware constraint: 12th Gen Intel Core i5-1235U with 4 GB RAM. Optimize memory footprint.",
+      "created_at": "2026-09-08T00:00:00Z",
+      "tags": [
+        "hardware",
+        "constraint",
+        "optimization"
+      ]
+    }
+  ]
+}

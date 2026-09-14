@@ -1,0 +1,40 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "FastAPI: IT'S MY AI Server",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": [
+        "backend.app.main:app",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "8000",
+        "--reload"
+      ],
+      "jinja": true,
+      "justMyCode": true,
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"
+      }
+    },
+    {
+      "name": "Python: Universal start.py",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/start.py",
+      "console": "integratedTerminal",
+      "justMyCode": true
+    },
+    {
+      "name": "Python: Verify System Tests",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/tests/verify_system.py",
+      "console": "integratedTerminal",
+      "justMyCode": true
+    }
+  ]
+}
